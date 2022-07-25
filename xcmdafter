@@ -25,7 +25,7 @@ while true; do
 	time_idle=$(xprintidle)
 	if [ $time_idle -ge $time ] && [ $triggered = false ]; then
 		triggered=true
-		$cmd
+		eval $cmd
 	elif [ $time -ge $time_idle ]; then
 		triggered=false
 	fi
