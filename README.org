@@ -1,0 +1,28 @@
+* xcmdafter
+~xcmdafter~ is a simple shell script which runs a command after a
+certain time of inactivity. It aims to be a simplified ~xautolock~,
+without the limitation of only being able to have one instance running
+at the same time
+
+** Usage:
+#+begin_src sh
+xcmdafter "CMD" TIMEOUT [SLEEP_TIMEOUT]
+#+end_src
+*** Example:
+#+begin_src sh
+xcmdafter "xset dpms force off" 10
+#+end_src
+The example over turns off the screen after 10 seconds of inactivity
+
+*** Example:
+#+begin_src sh
+xcmdafter "systemctl hibernate" 3600 5
+#+end_src
+The example over hibernates the computer after ~1~ hour of
+inactivity. Here we have specified SLEEP_TIMEOUT to ~5~ seconds which
+means we only check for inactivity every ~5~ seconds (default is every
+second), which technically should be lighter on system resources
+
+** Installation:
+Make sure you have ~xprintidle~ installed. Then simply copy
+~xcmdafter~ somewhere in your ~PATH~ and you're ready to go

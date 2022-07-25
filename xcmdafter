@@ -1,0 +1,33 @@
+#!/bin/sh
+
+exit_with_error() {
+	echo "$1" && exit
+}
+
+[ -z "$1" ] && exit_with_error "No command given"
+[ -z "$2" ] && exit_with_error "No timeout given"
+[ "$2" -eq "$2" ] 2>/dev/null || exit_with_error "Invalid timeout given"
+
+triggered=false
+cmd="$1"
+time="$2"000
+
+if [ -n "$3" ]; then
+	sleep_timeout=$3
+else
+	sleep_timeout=1
+fi
+[ "$sleep_timeout" -eq "$sleep_timeout" ] 2>/dev/null || exit_with_error "Invalid sleep timeout given"
+
+command -v xprintidle 1>/dev/null || exit_with_error "xprintidle is not installed"
+
+while true; do
+	time_idle=$(xprintidle)
+	if [ $time_idle -ge $time ] && [ $triggered = false ]; then
+		triggered=true
+		$cmd
+	elif [ $time -ge $time_idle ]; then
+		triggered=false
+	fi
+	sleep $sleep_timeout
+done
